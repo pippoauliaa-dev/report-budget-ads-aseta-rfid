@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluasi Dampak Kenaikan Budget Ads — Aseta & RFIDTS</title>
+<style>
+  :root {
+    --ink: #0b0b0b;
+    --navy: #10213f;
+    --muted: #52514e;
+    --muted-2: #898781;
+    --page: #f6f8fb;
+    --surface: #fcfcfb;
+    --line: #e1e0d9;
+    --line-blue: #d7e2f2;
+    --aseta: #2a78d6;
+    --aseta-soft: #eaf2ff;
+    --rfid: #1baf7a;
+    --rfid-soft: #e8f8f2;
+    --warm: #eb6834;
+    --warm-soft: #fff1e9;
+    --amber: #eda100;
+    --amber-soft: #fff7df;
+    --good: #006300;
+    --good-soft: #eaf6ea;
+    --shadow: 0 10px 30px rgba(16, 33, 63, .07);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--page);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.55;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 30px 24px 72px; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { margin-bottom: 10px; color: #fff; font-size: clamp(28px, 4vw, 48px); line-height: 1.06; letter-spacing: -.04em; }
+  h2 { margin-bottom: 6px; color: var(--navy); font-size: clamp(21px, 2.4vw, 30px); line-height: 1.15; letter-spacing: -.025em; }
+  h3 { margin-bottom: 6px; color: var(--navy); font-size: 16px; line-height: 1.25; }
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 42px 46px 38px;
+    border-radius: 22px;
+    background: var(--navy);
+    box-shadow: var(--shadow);
+    color: #fff;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    right: -90px;
+    bottom: -160px;
+    width: 410px;
+    height: 410px;
+    border: 1px solid rgba(110, 168, 255, .28);
+    border-radius: 50%;
+    box-shadow: 0 0 0 34px rgba(110, 168, 255, .05), 0 0 0 68px rgba(110, 168, 255, .035);
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 820px; }
+  .eyebrow { margin-bottom: 9px; color: var(--aseta); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+  .hero .eyebrow { color: #f5c05f; }
+  .hero-subtitle { max-width: 760px; margin-bottom: 25px; color: #c7d6ea; font-size: 16px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+  .pill-light { background: rgba(255,255,255,.11); color: #dbe8ff; }
+  .pill-warm { background: var(--amber); color: var(--navy); }
+  .section { margin-top: 34px; }
+  .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
+  .section-desc { max-width: 690px; color: var(--muted); font-size: 13px; }
+  .section-note { color: var(--muted-2); font-size: 11px; text-align: right; }
+  .callout {
+    margin: 20px 0 0;
+    padding: 16px 18px;
+    border: 1px solid #c8dbf8;
+    border-left: 4px solid var(--aseta);
+    border-radius: 12px;
+    background: var(--aseta-soft);
+    color: var(--navy);
+    font-size: 13.5px;
+  }
+  .callout strong { display: block; margin-bottom: 3px; }
+  .callout.warm { border-color: #f7d6c8; border-left-color: var(--warm); background: var(--warm-soft); }
+  .callout.amber { border-color: #f5df9d; border-left-color: var(--amber); background: var(--amber-soft); }
+  .grid { display: grid; gap: 15px; }
+  .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .card {
+    border: 1px solid var(--line-blue);
+    border-radius: 15px;
+    background: var(--surface);
+    box-shadow: 0 4px 15px rgba(16,33,63,.03);
+  }
+  .card-pad { padding: 19px; }
+  .product-card { padding: 20px; }
+  .product-card.aseta { border-top: 4px solid var(--aseta); }
+  .product-card.rfid { border-top: 4px solid var(--rfid); }
+  .product-title { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+  .product-title h3 { margin: 0; font-size: 20px; }
+  .product-mark { padding: 5px 9px; border-radius: 6px; font-size: 10px; font-weight: 800; letter-spacing: .06em; }
+  .product-mark.aseta { background: var(--aseta-soft); color: var(--aseta); }
+  .product-mark.rfid { background: var(--rfid-soft); color: #08714d; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .kpi {
+    min-width: 0;
+    min-height: 92px;
+    padding: 12px 13px;
+    border: 1px solid var(--line-blue);
+    border-radius: 11px;
+    background: #fff;
+  }
+  .kpi-label { color: var(--muted); font-size: 10px; line-height: 1.25; }
+  .kpi-value { margin: 5px 0 2px; color: var(--navy); font-size: clamp(17px, 2vw, 22px); font-weight: 800; letter-spacing: -.035em; line-height: 1.05; white-space: nowrap; }
+  .kpi-sub { color: var(--muted-2); font-size: 10px; line-height: 1.3; }
+  .kpi-value.aseta { color: var(--aseta); }
+  .kpi-value.rfid { color: #08714d; }
+  .positive { color: var(--good); font-weight: 700; }
+  .attention { color: #9a6500; font-weight: 700; }
+  .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-top: 14px; }
+  .mini-stat { padding: 11px 12px; border-radius: 10px; background: #f6f8fb; }
+  .mini-stat b { display: block; color: var(--navy); font-size: 17px; }
+  .mini-stat span { color: var(--muted); font-size: 10px; }
+  .chart-card { padding: 18px; min-height: 350px; }
+  .chart-title { margin-bottom: 3px; color: var(--navy); font-size: 14px; font-weight: 800; }
+  .chart-caption { margin-bottom: 11px; color: var(--muted); font-size: 11px; }
+  .chart-wrap { position: relative; height: 248px; }
+  .chart-wrap svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .chart-wrap svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .chart-wrap svg .grid-line { stroke: var(--line); stroke-width: 1; }
+  .chart-wrap svg .axis-label { fill: var(--muted); font-size: 10px; }
+  .chart-wrap svg .value-label { fill: var(--navy); font-size: 10px; font-weight: 700; }
+  .chart-wrap svg .marker-label { fill: #956500; font-size: 9px; font-weight: 800; }
+  .chart-wrap svg .hit { cursor: crosshair; }
+  .chart-tooltip { position: absolute; z-index: 5; pointer-events: none; min-width: 142px; padding: 9px 10px; border: 1px solid var(--line-blue); border-radius: 8px; background: var(--navy); color: #fff; box-shadow: var(--shadow); font-size: 10px; opacity: 0; transform: translate(-50%, -108%); transition: opacity .12s ease; }
+  .chart-tooltip.visible { opacity: 1; }
+  .chart-tooltip strong { display: block; margin-bottom: 3px; color: #f5c05f; font-size: 11px; }
+  .no-chart { display: none; }
+  .legend-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 4px 0 12px; }
+  .legend-item { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: 11px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+  .legend-dot.aseta { background: var(--aseta); }
+  .legend-dot.rfid { background: var(--rfid); }
+  .legend-dot.before { background: #9da7b6; }
+  .legend-dot.after { background: var(--warm); }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { padding: 10px 11px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+  th { color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr.highlight { background: #f4f8ff; }
+  .badge { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; white-space: nowrap; }
+  .badge.good { background: var(--good-soft); color: var(--good); }
+  .badge.focus { background: var(--amber-soft); color: #8a5b00; }
+  .badge.neutral { background: #eef2f6; color: var(--muted); }
+  .rate-table td:first-child { color: var(--muted); }
+  .rate-table td:last-child { font-weight: 800; }
+  .arrow { color: var(--warm); font-weight: 800; padding: 0 4px; }
+  .flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; margin-top: 12px; }
+  .flow-step { position: relative; padding: 13px 12px; border-top: 3px solid var(--aseta); border-radius: 9px; background: #f5f8fc; }
+  .flow-step:not(:last-child)::after { content: "→"; position: absolute; top: 19px; right: -12px; z-index: 2; color: var(--warm); font-size: 18px; font-weight: 800; }
+  .flow-step b { display: block; margin-bottom: 3px; color: var(--navy); font-size: 11px; }
+  .flow-step span { display: block; color: var(--muted); font-size: 10px; line-height: 1.35; }
+  .week-table td:first-child { color: var(--navy); font-weight: 800; white-space: nowrap; }
+  .week-table .after-row { background: #fffaf2; }
+  .week-table .change-row { background: #fff7df; }
+  .insight { padding: 16px 17px; border: 1px solid var(--line-blue); border-left: 4px solid var(--aseta); border-radius: 12px; background: #fff; }
+  .insight.rfid { border-left-color: var(--rfid); }
+  .insight h3 { margin-bottom: 7px; }
+  .insight p { margin-bottom: 0; color: var(--muted); font-size: 12.5px; }
+  .insight p strong { color: var(--navy); }
+  .competitor { padding: 20px; }
+  .competitor.aseta { background: linear-gradient(135deg, #f2f7ff, #fff); border-color: #c8dbf8; }
+  .competitor.rfid { background: linear-gradient(135deg, #effbf6, #fff); border-color: #c4eee1; }
+  .competitor h3 { font-size: 19px; }
+  .competitor p { color: var(--muted); font-size: 12.5px; }
+  .competitor-list { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+  .competitor-list li { display: grid; grid-template-columns: 19px 1fr; gap: 8px; color: var(--muted); font-size: 11.5px; }
+  .competitor-list li::before { content: "✓"; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: #e4f4eb; color: var(--good); font-size: 10px; font-weight: 900; }
+  .action-card { padding: 18px; }
+  .action-card ol { margin: 8px 0 0; padding-left: 21px; color: var(--muted); font-size: 12px; }
+  .action-card li { margin: 7px 0; padding-left: 3px; }
+  .action-card li::marker { color: var(--aseta); font-weight: 800; }
+  .footer { margin-top: 38px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted-2); font-size: 10.5px; }
+  .footer strong { color: var(--muted); }
+  .method { margin-top: 17px; }
+  .method summary { cursor: pointer; color: var(--aseta); font-size: 12px; font-weight: 800; }
+  .method p { margin: 9px 0 0; color: var(--muted); font-size: 11px; }
+  .no-chart { display: none; padding: 30px; color: var(--muted); text-align: center; }
+
+  @media (max-width: 980px) {
+    .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 720px) {
+    .wrap { padding: 15px 12px 50px; }
+    .hero { padding: 30px 25px; border-radius: 16px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .section-head { display: block; }
+    .section-note { margin-top: 5px; text-align: left; }
+    .flow { grid-template-columns: 1fr; }
+    .flow-step:not(:last-child)::after { content: "↓"; top: auto; right: 50%; bottom: -17px; }
+    .chart-card { min-height: 325px; }
+    .chart-wrap { height: 220px; }
+  }
+  @media print {
+    body { background: #fff; }
+    .wrap { max-width: none; padding: 0; }
+    .hero, .card, .callout, .insight, .competitor { box-shadow: none; }
+    .section { break-inside: avoid; }
+    .chart-card { break-inside: avoid; }
+    .method { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-content">
+      <div class="eyebrow">Evaluasi Marketing Performance · 16 September 2026</div>
+      <h1>Dampak kenaikan budget ads terhadap pipeline</h1>
+      <p class="hero-subtitle">Review Aseta dan RFID WMS Total Solution dari acquisition hingga contract. Fokus evaluasi: apa yang sudah bergerak, apa yang perlu ditingkatkan, dan langkah scaling berikutnya.</p>
+      <div class="meta-row">
+        <span class="pill pill-warm">Budget naik mulai Agustus Week 3</span>
+        <span class="pill pill-light">Before: Agustus W1–W2</span>
+        <span class="pill pill-light">After: Agustus W3–September W2</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="callout">
+    <strong>Kesimpulan utama</strong>
+    Kenaikan budget mulai memperdalam funnel. <b>Aseta</b> menunjukkan pergerakan paling kuat sampai quotation dan deal contract, sedangkan <b>RFID WMS Total Solution</b> bertumbuh pada lead serta quotation. Tahap berikutnya adalah meningkatkan konsistensi meeting dan follow-up komersial agar momentum ini semakin kuat.
+  </div>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">01 · Executive snapshot</div>
+        <h2>Pipeline tumbuh dengan karakter berbeda</h2>
+        <p class="section-desc">Angka disajikan sebagai total periode untuk melihat dampak bisnis secara langsung, lalu dinormalisasi per minggu pada bagian perbandingan.</p>
+      </div>
+      <div class="section-note">Sumber: tabel funnel mingguan yang diberikan</div>
+    </div>
+    <div class="grid grid-2">
+      <article class="card product-card aseta">
+        <div class="product-title"><h3>Aseta</h3><span class="product-mark aseta">ASSET MANAGEMENT</span></div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-label">Leads after</div><div class="kpi-value aseta">193</div><div class="kpi-sub">48,25 / minggu</div></div>
+          <div class="kpi"><div class="kpi-label">Meeting</div><div class="kpi-value aseta">7</div><div class="kpi-sub">3,63% dari leads</div></div>
+          <div class="kpi"><div class="kpi-label">Trial</div><div class="kpi-value aseta">4</div><div class="kpi-sub">2,07% dari leads</div></div>
+          <div class="kpi"><div class="kpi-label">Quotation</div><div class="kpi-value aseta">8</div><div class="kpi-sub">4,15% dari leads</div></div>
+          <div class="kpi"><div class="kpi-label">Deal contract</div><div class="kpi-value aseta">3</div><div class="kpi-sub">1,55% dari leads</div></div>
+          <div class="kpi"><div class="kpi-label">Spend</div><div class="kpi-value aseta">Rp7,83jt</div><div class="kpi-sub">Rp1,96jt / minggu</div></div>
+        </div>
+        <div class="mini-grid">
+          <div class="mini-stat"><b class="positive">+300%</b><span>quotation vs before</span></div>
+          <div class="mini-stat"><b class="positive">Mulai muncul</b><span>deal contract di after</span></div>
+        </div>
+      </article>
+      <article class="card product-card rfid">
+        <div class="product-title"><h3>RFID WMS Total Solution</h3><span class="product-mark rfid">WAREHOUSE VISIBILITY</span></div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-label">Leads after</div><div class="kpi-value rfid">142</div><div class="kpi-sub">35,50 / minggu</div></div>
+          <div class="kpi"><div class="kpi-label">Meeting</div><div class="kpi-value rfid">4</div><div class="kpi-sub">2,82% dari leads</div></div>
+          <div class="kpi"><div class="kpi-label">Quotation</div><div class="kpi-value rfid">6</div><div class="kpi-sub">4,23% dari leads</div></div>
+          <div class="kpi"><div class="kpi-label">Deal contract</div><div class="kpi-value rfid">0</div><div class="kpi-sub">pipeline masih berjalan</div></div>
+          <div class="kpi"><div class="kpi-label">Spend</div><div class="kpi-value rfid">Rp4,85jt</div><div class="kpi-sub">Rp1,21jt / minggu</div></div>
+          <div class="kpi"><div class="kpi-label">CPL after</div><div class="kpi-value rfid">Rp34.144</div><div class="kpi-sub">+7,1% vs before</div></div>
+        </div>
+        <div class="mini-grid">
+          <div class="mini-stat"><b class="positive">+24,6%</b><span>leads / minggu</span></div>
+          <div class="mini-stat"><b class="positive">-55,5%</b><span>cost per quotation</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">02 · Budget & delivery trend</div>
+        <h2>Budget tambahan sudah masuk ke delivery</h2>
+        <p class="section-desc">Marker vertikal menunjukkan titik kenaikan budget. Grafik menggunakan satu skala per chart agar perbandingan tetap mudah dibaca.</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
+      <article class="card chart-card">
+        <div class="chart-title">Spend mingguan</div>
+        <div class="chart-caption">Kenaikan spend terlihat mulai Agustus W3 dan dipertahankan sampai September W2.</div>
+        <div class="legend-row"><span class="legend-item"><i class="legend-dot aseta"></i>Aseta</span><span class="legend-item"><i class="legend-dot rfid"></i>RFID WMS Total Solution</span></div>
+        <div class="chart-wrap" id="spendChart" aria-label="Grafik spend mingguan Aseta dan RFID WMS Total Solution"></div>
+      </article>
+      <article class="card chart-card">
+        <div class="chart-title">CPL mingguan</div>
+        <div class="chart-caption">CPL Aseta masih dalam fase penyesuaian; CPL RFID relatif lebih stabil setelah kenaikan budget.</div>
+        <div class="legend-row"><span class="legend-item"><i class="legend-dot aseta"></i>Aseta</span><span class="legend-item"><i class="legend-dot rfid"></i>RFID WMS Total Solution</span></div>
+        <div class="chart-wrap" id="cplChart" aria-label="Grafik CPL mingguan Aseta dan RFID WMS Total Solution"></div>
+      </article>
+    </div>
+    <div class="card card-pad" style="margin-top:15px">
+      <div class="table-wrap">
+        <table class="week-table">
+          <thead><tr><th>Minggu</th><th class="num">Spend Aseta</th><th class="num">CPL Aseta</th><th class="num">Spend RFID</th><th class="num">CPL RFID</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Agustus W1</td><td class="num">Rp1.289.426</td><td class="num">Rp18.962</td><td class="num">Rp988.301</td><td class="num">Rp34.079</td><td><span class="badge neutral">Before</span></td></tr>
+            <tr><td>Agustus W2</td><td class="num">Rp1.805.078</td><td class="num">Rp24.727</td><td class="num">Rp829.311</td><td class="num">Rp29.618</td><td><span class="badge neutral">Before</span></td></tr>
+            <tr class="change-row"><td>Agustus W3</td><td class="num">Rp1.994.721</td><td class="num">Rp34.392</td><td class="num">Rp1.122.560</td><td class="num">Rp28.784</td><td><span class="badge focus">Budget naik</span></td></tr>
+            <tr class="after-row"><td>Agustus W4</td><td class="num">Rp1.781.622</td><td class="num">Rp44.541</td><td class="num">Rp1.297.284</td><td class="num">Rp38.155</td><td><span class="badge good">After</span></td></tr>
+            <tr class="after-row"><td>September W1</td><td class="num">Rp1.769.023</td><td class="num">Rp46.553</td><td class="num">Rp1.611.193</td><td class="num">Rp36.618</td><td><span class="badge good">After</span></td></tr>
+            <tr class="after-row"><td>September W2</td><td class="num">Rp2.283.661</td><td class="num">Rp40.064</td><td class="num">Rp817.449</td><td class="num">Rp32.698</td><td><span class="badge good">After</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">03 · Before → after</div>
+        <h2>Perbandingan funnel yang lebih adil</h2>
+        <p class="section-desc">Periode berbeda dinormalisasi menjadi rata-rata mingguan. Ini membantu membaca dampak kenaikan budget tanpa bias jumlah minggu.</p>
+      </div>
+      <div class="section-note">Before: 2 minggu · After: 4 minggu</div>
+    </div>
+    <div class="grid grid-2">
+      <article class="card chart-card">
+        <div class="chart-title">Aseta · conversion rate dari leads</div>
+        <div class="chart-caption">Funnel bawah bergerak lebih kuat setelah kenaikan budget.</div>
+        <div class="chart-wrap" id="asetaRateChart" aria-label="Conversion rate before dan after untuk Aseta"></div>
+      </article>
+      <article class="card chart-card">
+        <div class="chart-title">RFID · conversion rate dari leads</div>
+        <div class="chart-caption">Quotation rate naik; meeting menjadi area yang masih perlu diperkuat.</div>
+        <div class="chart-wrap" id="rfidRateChart" aria-label="Conversion rate before dan after untuk RFID WMS Total Solution"></div>
+      </article>
+    </div>
+    <div class="grid grid-2" style="margin-top:15px">
+      <article class="card card-pad">
+        <div class="product-title"><h3>Aseta · volume & efisiensi</h3><span class="product-mark aseta">BEFORE → AFTER</span></div>
+        <div class="table-wrap">
+          <table class="rate-table">
+            <thead><tr><th>Metrik</th><th class="num">Before / mgg</th><th class="num">After / mgg</th><th class="num">Perubahan</th></tr></thead>
+            <tbody>
+              <tr><td>Leads</td><td class="num">70,50</td><td class="num">48,25</td><td class="num attention">-31,6%</td></tr>
+              <tr><td>Meeting</td><td class="num">3,50</td><td class="num">1,75</td><td class="num attention">-50,0%</td></tr>
+              <tr><td>Trial</td><td class="num">0</td><td class="num">1,00</td><td class="num positive">Mulai muncul</td></tr>
+              <tr><td>Quotation</td><td class="num">0,50</td><td class="num">2,00</td><td class="num positive">+300,0%</td></tr>
+              <tr><td>Deal contract</td><td class="num">0</td><td class="num">0,75</td><td class="num positive">Mulai muncul</td></tr>
+              <tr><td>CPL</td><td class="num">Rp21.947</td><td class="num">Rp40.565</td><td class="num attention">+84,8%</td></tr>
+              <tr><td>Cost / quotation</td><td class="num">Rp3,09jt</td><td class="num">Rp978,6rb</td><td class="num positive">-68,4%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card card-pad">
+        <div class="product-title"><h3>RFID · volume & efisiensi</h3><span class="product-mark rfid">BEFORE → AFTER</span></div>
+        <div class="table-wrap">
+          <table class="rate-table">
+            <thead><tr><th>Metrik</th><th class="num">Before / mgg</th><th class="num">After / mgg</th><th class="num">Perubahan</th></tr></thead>
+            <tbody>
+              <tr><td>Leads</td><td class="num">28,50</td><td class="num">35,50</td><td class="num positive">+24,6%</td></tr>
+              <tr><td>Meeting</td><td class="num">1,50</td><td class="num">1,00</td><td class="num attention">-33,3%</td></tr>
+              <tr><td>Quotation</td><td class="num">0,50</td><td class="num">1,50</td><td class="num positive">+200,0%</td></tr>
+              <tr><td>Deal contract</td><td class="num">0</td><td class="num">0</td><td class="num neutral">Pipeline berjalan</td></tr>
+              <tr><td>CPL</td><td class="num">Rp31.888</td><td class="num">Rp34.144</td><td class="num attention">+7,1%</td></tr>
+              <tr><td>Cost / quotation</td><td class="num">Rp1,82jt</td><td class="num">Rp808,1rb</td><td class="num positive">-55,5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">04 · Learning phase result</div>
+        <h2>Campaign sedang menemukan pola yang lebih bernilai</h2>
+        <p class="section-desc">Hasil learning dibaca dari pola bisnis pada funnel. Status teknis platform seperti Learning atau Learning Limited tetap perlu dicek langsung di Ads Manager.</p>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><b>Agustus W1–W2</b><span>Baseline acquisition sebelum kenaikan budget.</span></div>
+      <div class="flow-step"><b>Agustus W3</b><span>Kenaikan budget mulai aktif; delivery mulai menyesuaikan.</span></div>
+      <div class="flow-step"><b>Agustus W4</b><span>Aseta mulai menghasilkan 2 deal; RFID mulai memperbanyak quotation.</span></div>
+      <div class="flow-step"><b>September W1</b><span>Funnel tetap aktif; CPL dan follow-up perlu dijaga konsistensinya.</span></div>
+      <div class="flow-step"><b>September W2</b><span>Aseta menghasilkan 1 deal; RFID mencatat 4 meeting.</span></div>
+    </div>
+    <div class="grid grid-2" style="margin-top:15px">
+      <article class="insight">
+        <h3>Aseta · learning sudah memberi sinyal kualitas</h3>
+        <p>Kenaikan spend belum menghasilkan volume lead yang linear, tetapi <strong>trial, quotation, dan deal contract mulai muncul</strong>. Cost per quotation turun signifikan. Area yang perlu ditingkatkan adalah stabilitas lead-to-meeting dan pengendalian CPL saat audience diperluas.</p>
+      </article>
+      <article class="insight rfid">
+        <h3>RFID · acquisition relatif stabil</h3>
+        <p>Lead mingguan bertambah dan CPL hanya bergerak tipis. <strong>Quotation bertumbuh</strong>, sehingga pesan solusi mulai menjangkau prospek yang lebih relevan. Area yang perlu ditingkatkan adalah konsistensi meeting dan pendampingan quotation sampai next step yang jelas.</p>
+      </article>
+    </div>
+    <div class="callout amber">
+      <strong>Interpretasi yang disarankan</strong>
+      Fase ini bukan alasan untuk menghentikan scaling. Gunakan dua–tiga minggu berikutnya untuk memperkuat kualitas data, follow-up, dan retargeting sebelum memutuskan kenaikan budget lanjutan.
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">05 · Competitive result</div>
+        <h2>Keunggulan perlu dibuat lebih terlihat di pasar</h2>
+        <p class="section-desc">Benchmark kompetitor dibaca dari sudut positioning dan sales enablement. Nama serta skor rinci kompetitor RFID tidak dihitung dari tabel funnel ini, sehingga tidak dibuat-buat.</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
+      <article class="card competitor aseta">
+        <div class="product-title"><h3>Aseta</h3><span class="product-mark aseta">VS EAM / CMMS</span></div>
+        <p><strong>Hasil kompetitif:</strong> Aseta memiliki ruang bersaing melalui fokus asset lifecycle dan maintenance. Tantangan minor yang perlu ditingkatkan adalah visibilitas fitur premium, bukti implementasi, dan pesan pembeda terhadap pemain mapan seperti HashMicro.</p>
+        <ul class="competitor-list">
+          <li>Tonjolkan asset register, maintenance, lifecycle, multi-site, dan audit trail sebagai outcome bisnis.</li>
+          <li>Gunakan case study, screenshot workflow, dan kalkulasi pengurangan downtime sebagai proof.</li>
+          <li>Buat perbandingan yang edukatif: Aseta vs spreadsheet, ERP umum, dan CMMS konvensional.</li>
+          <li>Gunakan CTA “Asset Management Maturity Check” untuk menyaring intent sebelum demo.</li>
+        </ul>
+      </article>
+      <article class="card competitor rfid">
+        <div class="product-title"><h3>RFID WMS Total Solution</h3><span class="product-mark rfid">VS SOLUTION PROVIDERS</span></div>
+        <p><strong>Hasil kompetitif:</strong> Diferensiasi terkuat berada pada pendekatan end-to-end—discovery, desain, hardware, software, integrasi, implementasi, training, dan support—bukan sekadar penjualan reader atau tag.</p>
+        <ul class="competitor-list">
+          <li>Perjelas arsitektur solution dan integrasinya dengan WMS/ERP existing.</li>
+          <li>Gunakan use case receiving, stock opname, put-away, picking, dan dispatch.</li>
+          <li>Tampilkan ROI, timeline pilot, site survey, SLA, serta after-sales support.</li>
+          <li>Gunakan CTA “Warehouse Traceability Assessment” untuk mendorong meeting berkualitas.</li>
+        </ul>
+      </article>
+    </div>
+    <div class="card card-pad" style="margin-top:15px">
+      <h3>Dimensi benchmark yang perlu dipantau pada review berikutnya</h3>
+      <div class="grid grid-4" style="margin-top:12px">
+        <div class="mini-stat"><b>Positioning</b><span>masalah apa yang diklaim paling kuat</span></div>
+        <div class="mini-stat"><b>Proof</b><span>case study, angka, dan demo yang tersedia</span></div>
+        <div class="mini-stat"><b>Commercial</b><span>model harga, pilot, dan paket implementasi</span></div>
+        <div class="mini-stat"><b>Sales speed</b><span>respons, discovery, proposal, dan follow-up</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">06 · Recommendation</div>
+        <h2>Langkah berikutnya: pertahankan momentum, rapikan konversi</h2>
+        <p class="section-desc">Rekomendasi disusun agar area minor tidak menjadi hambatan utama, sekaligus menjaga budget tetap menghasilkan pipeline yang semakin berkualitas.</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
+      <article class="card action-card">
+        <div class="product-title"><h3>Aseta · next move</h3><span class="badge good">Scale terkontrol</span></div>
+        <ol>
+          <li>Pertahankan budget saat ini selama 2–3 minggu sambil membaca cost per quotation dan cost per deal.</li>
+          <li>Audit sumber dari 4 trial, 8 quotation, dan 3 deal untuk menemukan audience serta creative yang paling bernilai.</li>
+          <li>Perkuat lead qualification dan respons meeting tanpa mengorbankan momentum funnel bawah.</li>
+          <li>Naikkan budget bertahap maksimal sekitar 20–25% setelah performa downstream stabil.</li>
+        </ol>
+      </article>
+      <article class="card action-card">
+        <div class="product-title"><h3>RFID · next move</h3><span class="badge good">Maintain & nurture</span></div>
+        <ol>
+          <li>Pertahankan budget saat ini karena lead dan quotation sudah menunjukkan pertumbuhan.</li>
+          <li>Follow-up enam quotation dengan status, next step, timeline, dan decision maker yang tercatat.</li>
+          <li>Tambahkan qualification: jumlah SKU, warehouse, existing WMS/ERP, pain point, dan timeline pilot.</li>
+          <li>Gunakan retargeting berbasis quotation dan meeting untuk membantu pipeline bergerak menuju contract.</li>
+        </ol>
+      </article>
+    </div>
+    <div class="callout warm">
+      <strong>Fokus KPI periode berikutnya</strong>
+      Aseta: <b>cost per quotation → cost per deal</b>. RFID: <b>qualified meeting → quotation-to-next-step → contract</b>. CPL tetap dipantau sebagai indikator kesehatan delivery, tetapi tidak berdiri sendiri sebagai penentu keberhasilan.
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">07 · Management takeaway</div>
+        <h2>Budget tambahan mulai menghasilkan kedalaman funnel</h2>
+      </div>
+    </div>
+    <div class="card" style="padding:23px 24px; background:var(--navy); border-color:var(--navy); color:#fff">
+      <p style="max-width:980px; margin:0; color:#dbe8ff; font-size:16px; line-height:1.6"><strong style="color:#f5c05f">Aseta</strong> menunjukkan validasi paling nyata sampai deal contract, sementara <strong style="color:#8de2c1">RFID WMS Total Solution</strong> memperkuat lead dan quotation dengan CPL yang relatif terjaga. Dengan perbaikan kecil pada meeting, qualification, dan follow-up, kenaikan budget ini memiliki dasar yang baik untuk dilanjutkan secara bertahap.</p>
+    </div>
+  </section>
+
+  <details class="method">
+    <summary>Metodologi dan catatan data</summary>
+    <p>Before menggunakan Agustus 2026 Week 1–2. After menggunakan Agustus Week 3–4 dan September Week 1–2. September Week 3–4 yang masih bernilai 0 tidak dimasukkan. Rata-rata mingguan dihitung dari total periode dibagi jumlah minggu aktif. Untuk RFID, tabel sumber tidak memiliki tahap trial, sehingga funnel yang digunakan adalah Leads → Meeting → Quotation Sent → Deal Contract. Angka deal menggambarkan contract yang tercatat pada periode, sedangkan sales cycle B2B dapat membuat sebagian quotation baru berkonversi pada periode berikutnya. Status teknis learning platform perlu dikonfirmasi di Ads Manager.</p>
+  </details>
+
+  <footer class="footer">
+    <strong>Evaluasi Dampak Kenaikan Budget Ads</strong> · Aseta &amp; RFID WMS Total Solution<br>
+    Disusun 16 September 2026 · Data sampai September 2026 Week 2 · Semua nilai rupiah dibulatkan hanya pada tampilan, perhitungan menggunakan nilai pada tabel sumber.
+  </footer>
+</div>
+
+<script>
+  /* Native SVG charts: the report remains complete when opened offline. */
+  const COLORS = { aseta: '#2a78d6', rfid: '#1baf7a', before: '#9da7b6', after: '#eb6834', grid: '#e1e0d9', ink: '#52514e', surface: '#fcfcfb', amber: '#eda100' };
+  const labels = ['Agt W1', 'Agt W2', 'Agt W3', 'Agt W4', 'Sep W1', 'Sep W2'];
+  const budgetIncreaseIndex = 2;
+  const fmt = value => new Intl.NumberFormat('id-ID').format(Math.round(value));
+  const shortRupiah = value => value >= 1000000 ? 'Rp' + (value / 1000000).toFixed(1).replace('.', ',') + 'jt' : 'Rp' + Math.round(value / 1000) + 'rb';
+  const svgEl = (name, attrs = {}) => { const el = document.createElementNS('http://www.w3.org/2000/svg', name); Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value)); return el; };
+  const addText = (parent, x, y, text, className, anchor = 'middle') => { const el = svgEl('text', { x, y, class: className, 'text-anchor': anchor }); el.textContent = text; parent.appendChild(el); return el; };
+  const niceMax = value => value <= 40000 ? Math.ceil(value / 10000) * 10000 : Math.ceil(value / 500000) * 500000;
+
+  function chartFrame(container, label) {
+    container.replaceChildren();
+    const svg = svgEl('svg', { viewBox: '0 0 720 250', role: 'img', 'aria-label': label, preserveAspectRatio: 'xMidYMid meet' });
+    const tooltip = document.createElement('div');
+    tooltip.className = 'chart-tooltip';
+    container.append(svg, tooltip);
+    return { svg, tooltip, width: 720, height: 250, left: 54, right: 16, top: 25, bottom: 42 };
+  }
+
+  function lineChart(id, series, valueFormat, label) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    const f = chartFrame(container, label);
+    const plotW = f.width - f.left - f.right;
+    const plotH = f.height - f.top - f.bottom;
+    const max = niceMax(Math.max(...series.flatMap(item => item.data)));
+    const x = index => f.left + (plotW * index / (labels.length - 1));
+    const y = value => f.top + plotH - (value / max * plotH);
+    const layer = svgEl('g');
+    f.svg.appendChild(layer);
+    for (let i = 0; i <= 4; i += 1) {
+      const value = max * i / 4;
+      const yy = y(value);
+      layer.appendChild(svgEl('line', { x1: f.left, y1: yy, x2: f.width - f.right, y2: yy, class: 'grid-line' }));
+      addText(layer, f.left - 9, yy + 4, valueFormat(value), 'axis-label', 'end');
+    }
+    labels.forEach((labelText, index) => addText(layer, x(index), f.height - 15, labelText, 'axis-label'));
+    const markerX = (x(1) + x(2)) / 2;
+    layer.appendChild(svgEl('line', { x1: markerX, y1: f.top, x2: markerX, y2: f.top + plotH, stroke: COLORS.amber, 'stroke-width': 1.5, 'stroke-dasharray': '4 4' }));
+    addText(layer, markerX + 5, f.top - 7, 'Budget naik', 'marker-label', 'start');
+    series.forEach(item => {
+      const points = item.data.map((value, index) => `${x(index)},${y(value)}`).join(' ');
+      layer.appendChild(svgEl('polyline', { points, fill: 'none', stroke: item.color, 'stroke-width': 2.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }));
+      item.data.forEach((value, index) => {
+        layer.appendChild(svgEl('circle', { cx: x(index), cy: y(value), r: 4.5, fill: item.color, stroke: COLORS.surface, 'stroke-width': 2 }));
+      });
+    });
+    const hitLayer = svgEl('g', { class: 'hit' });
+    labels.forEach((labelText, index) => {
+      const hit = svgEl('rect', { x: x(index) - 28, y: f.top, width: 56, height: plotH, fill: 'transparent' });
+      hit.addEventListener('mouseenter', event => {
+        f.tooltip.innerHTML = '';
+        const title = document.createElement('strong'); title.textContent = labelText; f.tooltip.appendChild(title);
+        series.forEach(item => { const row = document.createElement('div'); row.textContent = `${item.label}: ${valueFormat(item.data[index])}`; f.tooltip.appendChild(row); });
+        f.tooltip.style.left = `${(x(index) / f.width) * 100}%`;
+        f.tooltip.style.top = `${(f.top / f.height) * 100}%`;
+        f.tooltip.classList.add('visible');
+      });
+      hit.addEventListener('mouseleave', () => f.tooltip.classList.remove('visible'));
+      hitLayer.appendChild(hit);
+    });
+    f.svg.appendChild(hitLayer);
+  }
+
+  function rateChart(id, stages, before, after, label) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    const f = chartFrame(container, label);
+    const plotW = f.width - f.left - f.right;
+    const plotH = f.height - f.top - f.bottom;
+    const max = 8;
+    const x = index => f.left + plotW * (index + .5) / stages.length;
+    const y = value => f.top + plotH - (value / max * plotH);
+    const layer = svgEl('g'); f.svg.appendChild(layer);
+    for (let i = 0; i <= 4; i += 1) {
+      const value = max * i / 4, yy = y(value);
+      layer.appendChild(svgEl('line', { x1: f.left, y1: yy, x2: f.width - f.right, y2: yy, class: 'grid-line' }));
+      addText(layer, f.left - 9, yy + 4, `${value}%`, 'axis-label', 'end');
+    }
+    stages.forEach((stage, index) => addText(layer, x(index), f.height - 15, stage, 'axis-label'));
+    const barW = Math.min(31, plotW / stages.length / 4);
+    [before, after].forEach((values, setIndex) => values.forEach((value, index) => {
+      const barX = x(index) + (setIndex === 0 ? -barW - 3 : 3);
+      const barY = y(value), barH = f.top + plotH - barY;
+      const rect = svgEl('rect', { x: barX, y: barY, width: barW, height: Math.max(barH, 1), rx: 4, fill: setIndex === 0 ? COLORS.before : COLORS.after, class: 'hit' });
+      rect.addEventListener('mouseenter', event => {
+        f.tooltip.innerHTML = '';
+        const title = document.createElement('strong'); title.textContent = stages[index]; f.tooltip.appendChild(title);
+        const row = document.createElement('div'); row.textContent = `${setIndex === 0 ? 'Before' : 'After'}: ${value}%`; f.tooltip.appendChild(row);
+        f.tooltip.style.left = `${((barX + barW / 2) / f.width) * 100}%`; f.tooltip.style.top = `${(barY / f.height) * 100}%`; f.tooltip.classList.add('visible');
+      });
+      rect.addEventListener('mouseleave', () => f.tooltip.classList.remove('visible'));
+      layer.appendChild(rect);
+      if (value > 0) addText(layer, barX + barW / 2, barY - 6, `${value}%`, 'value-label');
+    }));
+    const legend = svgEl('g');
+    [[COLORS.before, 'Before'], [COLORS.after, 'After']].forEach(([color, text], index) => { const xx = f.width - 125 + index * 70; legend.appendChild(svgEl('rect', { x: xx, y: 5, width: 10, height: 10, rx: 3, fill: color })); addText(legend, xx + 16, 14, text, 'axis-label', 'start'); });
+    f.svg.appendChild(legend);
+  }
+
+  lineChart('spendChart', [
+    { label: 'Aseta', color: COLORS.aseta, data: [1289426, 1805078, 1994721, 1781622, 1769023, 2283661] },
+    { label: 'RFID WMS Total Solution', color: COLORS.rfid, data: [988301, 829311, 1122560, 1297284, 1611193, 817449] }
+  ], shortRupiah, 'Grafik spend mingguan Aseta dan RFID WMS Total Solution');
+  lineChart('cplChart', [
+    { label: 'Aseta', color: COLORS.aseta, data: [18962, 24727, 34392, 44541, 46553, 40064] },
+    { label: 'RFID WMS Total Solution', color: COLORS.rfid, data: [34079, 29618, 28784, 38155, 36618, 32698] }
+  ], value => 'Rp' + Math.round(value / 1000) + 'rb', 'Grafik CPL mingguan Aseta dan RFID WMS Total Solution');
+  rateChart('asetaRateChart', ['Meeting', 'Trial', 'Quotation', 'Deal'], [4.96, 0, .71, 0], [3.63, 2.07, 4.15, 1.55], 'Conversion rate before dan after untuk Aseta');
+  rateChart('rfidRateChart', ['Meeting', 'Quotation', 'Deal'], [5.26, 1.75, 0], [2.82, 4.23, 0], 'Conversion rate before dan after untuk RFID WMS Total Solution');
+</script>
+</body>
+</html>
