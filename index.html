@@ -196,6 +196,19 @@
     .data-table tr:last-child td { border-bottom: 0; }
     .data-table .after-col { background: var(--aseta-soft); }
     .rfid .data-table .after-col { background: var(--rfid-soft); }
+    .learning-section { margin-top: 42px; }
+    .learning-section .eyebrow { color: var(--rfid); }
+    .learning-timeline { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+    .learning-step { position: relative; min-height: 106px; padding: 19px 16px 15px; border: 1px solid var(--line); border-top: 4px solid var(--rfid); border-radius: 13px; background: var(--surface); }
+    .learning-step:not(:last-child)::after { content: "→"; position: absolute; top: 38px; right: -16px; z-index: 1; color: var(--aseta); font-size: 19px; font-weight: 800; }
+    .learning-step h3 { margin-bottom: 6px; font-size: 13px; }
+    .learning-step p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.4; }
+    .learning-insights { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 17px; }
+    .learning-insight { padding: 20px 22px; border: 1px solid var(--line); border-left: 5px solid var(--aseta); border-radius: 13px; background: var(--surface); }
+    .learning-insight.rfid { border-left-color: var(--rfid); }
+    .learning-insight h3 { margin-bottom: 9px; font-size: 18px; }
+    .learning-insight p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.65; }
+    .learning-insight p strong { color: var(--ink); }
 
     @media (max-width: 800px) {
       .wrap { padding: 16px 12px 45px; }
@@ -206,6 +219,10 @@
       .comparison-panel-header { display: block; }
       .comparison-periods { margin-inline: 17px; }
       .chart-grid { padding-inline: 17px; }
+      .learning-timeline { grid-template-columns: 1fr; gap: 10px; }
+      .learning-step { min-height: auto; }
+      .learning-step:not(:last-child)::after { content: "↓"; top: auto; right: 50%; bottom: -18px; }
+      .learning-insights { grid-template-columns: 1fr; }
       .source-note { margin-top: 7px; text-align: left; }
     }
     @media (max-width: 480px) {
@@ -406,9 +423,38 @@
       </div>
     </section>
 
+    <section class="section learning-section" aria-labelledby="learning-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">03 · Learning Phase Result</div>
+          <h2 id="learning-title">Campaign sedang menemukan pola yang lebih bernilai</h2>
+          <p class="section-desc">Hasil learning dibaca dari pola bisnis pada funnel. Status teknis platform seperti Learning atau Learning Limited tetap perlu dicek langsung di Ads Manager.</p>
+        </div>
+      </div>
+
+      <div class="learning-timeline" aria-label="Timeline learning phase">
+        <article class="learning-step"><h3>Agustus W1–W2</h3><p>Baseline acquisition sebelum kenaikan budget.</p></article>
+        <article class="learning-step"><h3>Agustus W3</h3><p>Kenaikan budget mulai aktif; delivery mulai menyesuaikan.</p></article>
+        <article class="learning-step"><h3>Agustus W4</h3><p>Aseta mulai menghasilkan 2 deal; RFID mulai memperbanyak quotation.</p></article>
+        <article class="learning-step"><h3>September W1</h3><p>RFID mencatat 1 deal; Aseta tetap menjaga aliran quotation.</p></article>
+        <article class="learning-step"><h3>September W2</h3><p>Aseta menghasilkan 1 deal; RFID mencatat 4 meeting.</p></article>
+      </div>
+
+      <div class="learning-insights">
+        <article class="learning-insight">
+          <h3>Aseta · learning sudah memberi sinyal kualitas</h3>
+          <p>Kenaikan spend belum menghasilkan volume lead yang linear, tetapi <strong>trial, quotation, dan deal contract mulai muncul</strong>. Cost per quotation turun signifikan. Area yang perlu ditingkatkan adalah stabilitas lead-to-meeting dan pengendalian CPL saat audience diperluas.</p>
+        </article>
+        <article class="learning-insight rfid">
+          <h3>RFID · acquisition dan conversion mulai tervalidasi</h3>
+          <p>Lead mingguan bertambah dan CPL hanya bergerak tipis. <strong>Quotation bertumbuh dan 1 deal contract mulai tercatat</strong>, sehingga pesan solusi mulai menjangkau prospek yang lebih relevan. Area yang perlu ditingkatkan adalah konsistensi meeting dan pendampingan quotation sampai next step yang jelas.</p>
+        </article>
+      </div>
+    </section>
+
     <footer class="footer">
       <strong>Report Funneling</strong> · Aseta &amp; RFID WMS Total Solution<br>
-      Section 1–2 · Data funnel dan perbandingan sesuai input report · September 2026
+      Section 1–3 · Data funnel, perbandingan, dan learning phase sesuai input report · September 2026
     </footer>
   </main>
   <script>

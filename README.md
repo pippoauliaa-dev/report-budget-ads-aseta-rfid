@@ -11,6 +11,7 @@ Report interaktif **Section 1–2** untuk membaca perjalanan funnel dari leads h
 - Perbandingan Leads, Meeting, Trial, Quotation, dan Deal Contract
 - Empat periode operasional: Mei W3–Juni W3, Juni W4–Juli W3, Juli W4–Agustus W2, dan Agustus W3–September W2
 - Summary perubahan: deal Aseta dan quotation RFID pada periode setelah budget naik
+- Learning phase result dengan timeline dan dua insight produk
 - Catatan atribusi revenue RFID First Luxury Singapore
 
 ## Online report
