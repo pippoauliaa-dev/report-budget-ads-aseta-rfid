@@ -209,6 +209,28 @@
     .learning-insight h3 { margin-bottom: 9px; font-size: 18px; }
     .learning-insight p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.65; }
     .learning-insight p strong { color: var(--ink); }
+    .recommendation-section { margin-top: 42px; }
+    .recommendation-section .eyebrow { color: var(--aseta); }
+    .recommendation-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .recommendation-card { padding: 21px 23px 23px; border: 1px solid var(--line); border-top: 5px solid var(--aseta); border-radius: 17px; background: var(--surface); box-shadow: 0 8px 25px rgba(16, 33, 63, .05); }
+    .recommendation-card.rfid { border-top-color: var(--rfid); }
+    .recommendation-header { display: flex; align-items: center; justify-content: space-between; gap: 13px; margin-bottom: 18px; }
+    .recommendation-header h3 { font-size: clamp(19px, 2vw, 25px); }
+    .recommendation-badge { padding: 7px 10px; border-radius: 7px; background: #eaf6ea; color: #08711a; font-size: 10px; font-weight: 850; white-space: nowrap; }
+    .recommendation-card ol { margin: 0; padding-left: 21px; color: var(--muted); font-size: 12.5px; }
+    .recommendation-card li { margin: 10px 0; padding-left: 3px; }
+    .recommendation-card li::marker { color: var(--aseta); font-weight: 900; }
+    .recommendation-card.rfid li::marker { color: var(--rfid); }
+    .improve { margin-top: 20px; padding: 15px 16px 14px; border-radius: 11px; background: var(--aseta-soft); }
+    .recommendation-card.rfid .improve { background: var(--rfid-soft); }
+    .improve h4 { margin: 0 0 8px; color: var(--ink); font-size: 12px; }
+    .improve ul { display: grid; gap: 6px; margin: 0; padding-left: 17px; color: var(--muted); font-size: 11.5px; }
+    .improve li::marker { color: var(--aseta-dark); }
+    .recommendation-card.rfid .improve li::marker { color: var(--rfid-dark); }
+    .kpi-focus { margin-top: 15px; padding: 16px 18px; border: 1px solid #f2d7c9; border-left: 5px solid var(--warm); border-radius: 12px; background: var(--warm-soft); color: #6c5046; font-size: 12px; }
+    .kpi-focus h3 { margin-bottom: 7px; font-size: 16px; }
+    .kpi-focus p { margin: 0; line-height: 1.65; }
+    .kpi-focus strong { color: var(--ink); }
 
     @media (max-width: 800px) {
       .wrap { padding: 16px 12px 45px; }
@@ -223,6 +245,8 @@
       .learning-step { min-height: auto; }
       .learning-step:not(:last-child)::after { content: "↓"; top: auto; right: 50%; bottom: -18px; }
       .learning-insights { grid-template-columns: 1fr; }
+      .recommendation-grid { grid-template-columns: 1fr; }
+      .recommendation-header { align-items: start; flex-direction: column; }
       .source-note { margin-top: 7px; text-align: left; }
     }
     @media (max-width: 480px) {
@@ -450,9 +474,57 @@
       </div>
     </section>
 
+    <section class="section recommendation-section" aria-labelledby="recommendation-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">04 · Recommendation</div>
+          <h2 id="recommendation-title">Langkah berikutnya: pertahankan momentum, rapikan konversi</h2>
+        </div>
+      </div>
+
+      <div class="recommendation-grid">
+        <article class="recommendation-card aseta">
+          <div class="recommendation-header"><h3>Aseta · next move</h3><span class="recommendation-badge">Scale terkontrol</span></div>
+          <ol>
+            <li>Pertahankan budget saat ini selama 2–3 minggu sambil membaca cost per quotation dan cost per deal.</li>
+            <li>Audit sumber dari 4 trial, 8 quotation, dan 3 deal untuk menemukan audience serta creative yang paling bernilai.</li>
+            <li>Perkuat lead qualification dan respons meeting tanpa mengorbankan momentum funnel bawah.</li>
+            <li>Naikkan budget bertahap maksimal sekitar 20–25% setelah performa downstream stabil.</li>
+          </ol>
+          <div class="improve"><h4>What to improve</h4><ul>
+            <li>Meningkatkan konsistensi lead-to-meeting.</li>
+            <li>Menekan CPL setelah perluasan audience.</li>
+            <li>Menstandarkan follow-up dari meeting ke trial/quotation.</li>
+            <li>Mengidentifikasi creative dan audience yang menghasilkan deal, bukan hanya lead.</li>
+          </ul></div>
+        </article>
+
+        <article class="recommendation-card rfid">
+          <div class="recommendation-header"><h3>RFID · next move</h3><span class="recommendation-badge">Maintain &amp; nurture</span></div>
+          <ol>
+            <li>Pertahankan budget saat ini karena lead dan quotation sudah menunjukkan pertumbuhan.</li>
+            <li>Follow-up enam quotation dengan status, next step, timeline, dan decision maker yang tercatat.</li>
+            <li>Tambahkan qualification: jumlah SKU, warehouse, existing WMS/ERP, pain point, dan timeline pilot.</li>
+            <li>Gunakan retargeting berbasis quotation dan meeting untuk membantu pipeline bergerak menuju contract.</li>
+          </ol>
+          <div class="improve"><h4>What to improve</h4><ul>
+            <li>Meningkatkan konsistensi meeting berkualitas.</li>
+            <li>Memastikan setiap quotation memiliki next step yang jelas.</li>
+            <li>Mempercepat perpindahan quotation menuju contract.</li>
+            <li>Memperkuat qualification prospek sebelum quotation dikirim.</li>
+          </ul></div>
+        </article>
+      </div>
+
+      <div class="kpi-focus">
+        <h3>Fokus KPI periode berikutnya</h3>
+        <p>Aseta: <strong>cost per quotation → cost per deal</strong>. RFID: <strong>qualified meeting → quotation-to-next-step → repeatable contract</strong>. CPL tetap dipantau sebagai indikator kesehatan delivery, tetapi tidak berdiri sendiri sebagai penentu keberhasilan.</p>
+      </div>
+    </section>
+
     <footer class="footer">
       <strong>Report Funneling</strong> · Aseta &amp; RFID WMS Total Solution<br>
-      Section 1–3 · Data funnel, perbandingan, dan learning phase sesuai input report · September 2026
+      Section 1–4 · Data funnel, perbandingan, learning phase, dan recommendation sesuai input report · September 2026
     </footer>
   </main>
   <script>
