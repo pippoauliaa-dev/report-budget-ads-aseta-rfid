@@ -188,15 +188,29 @@
     .rfid .phase-charts summary::marker { color: var(--rfid); }
     .metric-chart { min-width: 0; padding: 14px 13px 11px; border: 1px solid var(--line); border-radius: 12px; background: #fcfdff; }
     .pipeline-summary { margin: 18px 0 0; padding: 21px 24px 24px; border: 1px solid var(--line); border-top: 5px solid var(--ink); border-radius: 18px; background: var(--surface); box-shadow: 0 8px 25px rgba(16, 33, 63, .05); }
-    .pipeline-summary-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+    .pipeline-summary-header { margin-bottom: 14px; }
     .pipeline-summary-header h3 { margin-bottom: 4px; font-size: clamp(20px, 2vw, 27px); }
     .pipeline-summary-header p { margin-bottom: 0; color: var(--muted); font-size: 12px; }
-    .pipeline-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; color: var(--muted); font-size: 11px; }
-    .pipeline-legend span { display: inline-flex; align-items: center; gap: 6px; }
-    .pipeline-legend i { display: inline-block; width: 18px; height: 3px; border-radius: 99px; }
-    .pipeline-legend .aseta-key i { background: var(--aseta); }
-    .pipeline-legend .rfid-key i { background: var(--rfid); }
-    .pipeline-chart-wrap { position: relative; height: 290px; margin-top: 7px; }
+    .pipeline-summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .pipeline-summary-card { min-width: 0; padding: 17px 18px 19px; border: 1px solid var(--line); border-top: 4px solid var(--aseta); border-radius: 14px; background: #fbfdff; }
+    .pipeline-summary-card.rfid { border-top-color: var(--rfid); }
+    .pipeline-summary-card h4 { margin: 0; color: var(--ink); font-size: 17px; }
+    .pipeline-summary-card p { margin: 3px 0 0; color: var(--muted); font-size: 11px; }
+    .pipeline-legend { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; color: var(--muted); font-size: 10px; }
+    .pipeline-legend i { display: inline-block; width: 18px; height: 3px; border-radius: 99px; background: var(--aseta); }
+    .pipeline-summary-card.rfid .pipeline-legend i { background: var(--rfid); }
+    .pipeline-chart-wrap { position: relative; height: 250px; margin-top: 3px; }
+    .pipeline-details-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+    .pipeline-detail-group { min-width: 0; }
+    .pipeline-detail-group-title { margin: 0 0 8px; color: var(--ink); font-size: 11px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+    .pipeline-detail-group.rfid .pipeline-detail-group-title { color: var(--rfid-dark); }
+    .pipeline-detail-group.rfid .pipeline-detail-period.rfid-after { background: linear-gradient(180deg, var(--rfid-soft), #fbfdff); }
+    .pipeline-detail-group .pipeline-details { margin-top: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pipeline-detail-group .pipeline-detail-row { border-top: 0; padding-top: 0; }
+    .pipeline-detail-group .pipeline-detail-period { padding: 10px; }
+    .pipeline-detail-group .pipeline-detail-period h4 { margin-bottom: 6px; }
+    .pipeline-detail-group .pipeline-detail-note { margin-top: 8px; }
+    .pipeline-tooltip { position: absolute; z-index: 2; pointer-events: none; min-width: 166px; padding: 9px 10px; border-radius: 8px; background: var(--ink); color: #fff; box-shadow: var(--shadow); font-size: 10px; opacity: 0; transform: translate(-50%, -112%); transition: opacity .12s ease; }
     .pipeline-chart-wrap svg { display: block; width: 100%; height: 100%; overflow: visible; }
     .pipeline-chart-wrap svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
     .pipeline-chart-wrap .pipeline-grid-line { stroke: var(--line); stroke-width: 1; }
@@ -303,6 +317,7 @@
     @media (max-width: 800px) {
       .wrap { padding: 16px 12px 45px; }
       .pipeline-summary-header { display: block; }
+      .pipeline-summary-grid, .pipeline-details-groups { grid-template-columns: 1fr; }
       .pipeline-chart-wrap { height: 250px; }
       .pipeline-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .revenue-overview-header { display: block; }
@@ -334,6 +349,7 @@
       .efficiency:last-child { grid-column: 1 / -1; }
       .comparison-periods { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .pipeline-details { grid-template-columns: 1fr; }
+      .pipeline-detail-group .pipeline-details { grid-template-columns: 1fr; }
       .other-revenue-list { grid-template-columns: 1fr; }
       .chart-grid { grid-template-columns: 1fr; }
       .metric-chart:last-child:nth-child(odd) { grid-column: auto; }
@@ -481,24 +497,45 @@
 
       <article class="pipeline-summary" aria-labelledby="pipeline-summary-title">
         <div class="pipeline-summary-header">
-          <div>
-            <h3 id="pipeline-summary-title">Summary total pipeline per periode</h3>
-            <p>Akumulasi seluruh tahapan pipeline yang tercatat pada tiap periode.</p>
-          </div>
-          <div class="pipeline-legend" aria-label="Legenda line chart">
-            <span class="aseta-key"><i aria-hidden="true"></i>Aseta</span>
-            <span class="rfid-key"><i aria-hidden="true"></i>RFID WMS</span>
-          </div>
+          <h3 id="pipeline-summary-title">Summary total pipeline per periode</h3>
+          <p>Akumulasi tahapan pipeline ditampilkan terpisah agar tren Aseta dan RFID lebih mudah dibaca.</p>
         </div>
-        <div class="pipeline-chart-wrap" id="pipeline-summary-chart"></div>
-        <div class="pipeline-details-title">Detail pipeline per periode</div>
-        <div class="pipeline-details" aria-label="Detail pipeline per periode">
-          <article class="pipeline-detail-period"><h4>P1 · Mei W3–Jun W3</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 130 total</strong><span>Leads 120 · Meeting 5 · Trial 2 · Quotation 3 · Deal 0</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 144 total</strong><span>Leads 137 · Meeting 5 · Quotation 1 · Deal 1</span></div></article>
-          <article class="pipeline-detail-period"><h4>P2 · Jun W4–Jul W3</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 164 total</strong><span>Leads 154 · Meeting 7 · Trial 1 · Quotation 2 · Deal 0</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 158 total</strong><span>Leads 153 · Meeting 5 · Quotation 0 · Deal 0</span></div></article>
-          <article class="pipeline-detail-period"><h4>P3 · Jul W4–Agt W2</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 248 total</strong><span>Leads 232 · Meeting 11 · Trial 2 · Quotation 2 · Deal 1</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 145 total</strong><span>Leads 137 · Meeting 3 · Quotation 3 · Deal 2</span></div></article>
-          <article class="pipeline-detail-period after"><h4>P4 · Agt W3–Sep W2</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 215 total</strong><span>Leads 193 · Meeting 7 · Trial 4 · Quotation 8 · Deal 3</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 163 total</strong><span>Leads 151 · Meeting 5 · Quotation 6 · Deal 1</span></div></article>
+        <div class="pipeline-summary-grid">
+          <article class="pipeline-summary-card aseta" aria-labelledby="pipeline-aseta-title">
+            <h4 id="pipeline-aseta-title">Aseta</h4>
+            <p>Total pipeline per periode</p>
+            <div class="pipeline-legend"><i aria-hidden="true"></i>Aseta</div>
+            <div class="pipeline-chart-wrap" id="pipeline-aseta-chart"></div>
+          </article>
+          <article class="pipeline-summary-card rfid" aria-labelledby="pipeline-rfid-title">
+            <h4 id="pipeline-rfid-title">RFID WMS</h4>
+            <p>Total pipeline per periode</p>
+            <div class="pipeline-legend"><i aria-hidden="true"></i>RFID WMS</div>
+            <div class="pipeline-chart-wrap" id="pipeline-rfid-chart"></div>
+          </article>
         </div>
-        <p class="pipeline-detail-note">Total Aseta mencakup Trial dan Quotation sebagai tahap yang tercatat terpisah. Total RFID mencakup Leads, Meeting, Quotation, dan Deal Contract.</p>
+        <div class="pipeline-details-groups" aria-label="Detail pipeline per periode">
+          <section class="pipeline-detail-group aseta">
+            <h4 class="pipeline-detail-group-title">Detail pipeline Aseta</h4>
+            <div class="pipeline-details">
+              <article class="pipeline-detail-period"><h4>P1 · Mei W3–Jun W3</h4><div class="pipeline-detail-row aseta"><strong>131 total</strong><span>Leads 120 · Meeting 5 · Trial 2 · Quotation 3 · Deal 1</span></div></article>
+              <article class="pipeline-detail-period"><h4>P2 · Jun W4–Jul W3</h4><div class="pipeline-detail-row aseta"><strong>164 total</strong><span>Leads 154 · Meeting 7 · Trial 1 · Quotation 2 · Deal 0</span></div></article>
+              <article class="pipeline-detail-period"><h4>P3 · Jul W4–Agt W2</h4><div class="pipeline-detail-row aseta"><strong>248 total</strong><span>Leads 232 · Meeting 11 · Trial 2 · Quotation 2 · Deal 1</span></div></article>
+              <article class="pipeline-detail-period after"><h4>P4 · Agt W3–Sep W2</h4><div class="pipeline-detail-row aseta"><strong>215 total</strong><span>Leads 193 · Meeting 7 · Trial 4 · Quotation 8 · Deal 3</span></div></article>
+            </div>
+            <p class="pipeline-detail-note">Total Aseta mencakup Trial dan Quotation sebagai tahap yang tercatat terpisah.</p>
+          </section>
+          <section class="pipeline-detail-group rfid">
+            <h4 class="pipeline-detail-group-title">Detail pipeline RFID WMS</h4>
+            <div class="pipeline-details">
+              <article class="pipeline-detail-period"><h4>P1 · Mei W3–Jun W3</h4><div class="pipeline-detail-row rfid"><strong>144 total</strong><span>Leads 137 · Meeting 5 · Quotation 1 · Deal 1</span></div></article>
+              <article class="pipeline-detail-period"><h4>P2 · Jun W4–Jul W3</h4><div class="pipeline-detail-row rfid"><strong>158 total</strong><span>Leads 153 · Meeting 5 · Quotation 0 · Deal 0</span></div></article>
+              <article class="pipeline-detail-period"><h4>P3 · Jul W4–Agt W2</h4><div class="pipeline-detail-row rfid"><strong>145 total</strong><span>Leads 137 · Meeting 3 · Quotation 3 · Deal 2</span></div></article>
+              <article class="pipeline-detail-period rfid-after"><h4>P4 · Agt W3–Sep W2</h4><div class="pipeline-detail-row rfid"><strong>163 total</strong><span>Leads 151 · Meeting 5 · Quotation 6 · Deal 1</span></div></article>
+            </div>
+            <p class="pipeline-detail-note">Total RFID mencakup Leads, Meeting, Quotation, dan Deal Contract.</p>
+          </section>
+        </div>
       </article>
 
       <div class="funnel-grid">
@@ -741,15 +778,11 @@
       if (chart) renderComparisonChart(container, chart);
     });
 
-    function renderPipelineSummary(container) {
-      const width = 900, height = 260, left = 54, right = 22, top = 24, bottom = 46;
+    function renderPipelineSummary(container, series) {
+      const width = 520, height = 220, left = 45, right = 15, top = 18, bottom = 38;
       const plotWidth = width - left - right, plotHeight = height - top - bottom;
-      const series = [
-        { label: 'Aseta', color: '#e86a38', totals: [131, 164, 248, 215] },
-        { label: 'RFID WMS', color: '#2a78d6', totals: [144, 158, 145, 163] }
-      ];
-      const max = niceMax(Math.max(...series.flatMap(item => item.totals)));
-      const svg = svgNode('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': 'Line chart total pipeline Aseta dan RFID WMS per periode' });
+      const max = niceMax(Math.max(...series.totals));
+      const svg = svgNode('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': `Line chart total pipeline ${series.label} per periode` });
       const tooltip = document.createElement('div');
       tooltip.className = 'pipeline-tooltip';
       container.replaceChildren(svg, tooltip);
@@ -762,55 +795,46 @@
         const value = max * tick / 4;
         const yy = y(value);
         layer.appendChild(svgNode('line', { x1: left, y1: yy, x2: width - right, y2: yy, class: 'pipeline-grid-line' }));
-        chartText(layer, left - 10, yy + 4, numberFormat(value), 'pipeline-axis-label', 'end');
+        chartText(layer, left - 8, yy + 4, numberFormat(value), 'pipeline-axis-label', 'end');
       }
 
-      const pointsByPeriod = comparisonPeriods.map((period, index) => ({
-        period,
-        index,
-        x: x(index),
-        values: series.map(item => item.totals[index])
-      }));
-      const showTooltip = point => {
+      const showTooltip = (period, value, pointX, pointY) => {
         tooltip.replaceChildren();
         const title = document.createElement('strong');
-        title.textContent = point.period.label;
+        title.textContent = period.label;
         tooltip.appendChild(title);
-        series.forEach((item, index) => {
-          const line = document.createElement('div');
-          line.className = index === 0 ? 'tooltip-aseta' : 'tooltip-rfid';
-          line.textContent = `${item.label}: ${numberFormat(point.values[index])}`;
-          tooltip.appendChild(line);
-        });
-        tooltip.style.left = `${(point.x / width) * 100}%`;
-        tooltip.style.top = `${(Math.min(...point.values.map(value => y(value))) / height) * 100}%`;
+        const line = document.createElement('div');
+        line.textContent = `${series.label}: ${numberFormat(value)} total pipeline`;
+        tooltip.appendChild(line);
+        tooltip.style.left = `${(pointX / width) * 100}%`;
+        tooltip.style.top = `${(pointY / height) * 100}%`;
         tooltip.classList.add('visible');
       };
 
-      series.forEach(item => {
-        const points = item.totals.map((value, index) => `${x(index)},${y(value)}`).join(' ');
-        layer.appendChild(svgNode('polyline', { points, stroke: item.color, class: 'pipeline-line' }));
-        item.totals.forEach((value, index) => {
-          layer.appendChild(svgNode('circle', { cx: x(index), cy: y(value), r: 5, fill: item.color, class: 'pipeline-point' }));
-          if (index === item.totals.length - 1) chartText(layer, x(index) - 7, y(value) - 10, numberFormat(value), 'pipeline-value-label', 'end');
-        });
+      const points = series.totals.map((value, index) => `${x(index)},${y(value)}`).join(' ');
+      layer.appendChild(svgNode('polyline', { points, stroke: series.color, class: 'pipeline-line' }));
+      series.totals.forEach((value, index) => {
+        layer.appendChild(svgNode('circle', { cx: x(index), cy: y(value), r: 5, fill: series.color, class: 'pipeline-point' }));
+        chartText(layer, x(index), height - 20, comparisonPeriods[index].short, 'pipeline-axis-label');
+        if (index === series.totals.length - 1) chartText(layer, x(index) - 7, y(value) - 10, numberFormat(value), 'pipeline-value-label', 'end');
       });
 
-      pointsByPeriod.forEach(point => {
-        const hit = svgNode('rect', { x: point.x - 28, y: top, width: 56, height: plotHeight, class: 'pipeline-hit', tabindex: '0', 'aria-label': `${point.period.label}: Aseta ${point.values[0]}, RFID WMS ${point.values[1]}` });
-        const crosshair = svgNode('line', { x1: point.x, y1: top, x2: point.x, y2: top + plotHeight, class: 'pipeline-crosshair' });
-        hit.addEventListener('mouseenter', () => { showTooltip(point); crosshair.style.opacity = '.7'; });
-        hit.addEventListener('focus', () => { showTooltip(point); crosshair.style.opacity = '.7'; });
+      comparisonPeriods.forEach((period, index) => {
+        const pointX = x(index), pointY = y(series.totals[index]);
+        const hit = svgNode('rect', { x: pointX - 30, y: top, width: 60, height: plotHeight, class: 'pipeline-hit', tabindex: '0', 'aria-label': `${period.label}: ${series.label} ${series.totals[index]}` });
+        const crosshair = svgNode('line', { x1: pointX, y1: top, x2: pointX, y2: top + plotHeight, class: 'pipeline-crosshair' });
+        hit.addEventListener('mouseenter', () => { showTooltip(period, series.totals[index], pointX, pointY); crosshair.style.opacity = '.7'; });
+        hit.addEventListener('focus', () => { showTooltip(period, series.totals[index], pointX, pointY); crosshair.style.opacity = '.7'; });
         hit.addEventListener('mouseleave', () => { tooltip.classList.remove('visible'); crosshair.style.opacity = '0'; });
         hit.addEventListener('blur', () => { tooltip.classList.remove('visible'); crosshair.style.opacity = '0'; });
         layer.appendChild(hit);
         layer.appendChild(crosshair);
-        chartText(layer, point.x, height - 22, point.period.short, 'pipeline-axis-label');
       });
-      chartText(layer, width - right, height - 5, 'total pipeline', 'pipeline-axis-label', 'end');
+      chartText(layer, width - right, height - 4, 'total pipeline', 'pipeline-axis-label', 'end');
     }
 
-    renderPipelineSummary(document.querySelector('#pipeline-summary-chart'));
+    renderPipelineSummary(document.querySelector('#pipeline-aseta-chart'), { label: 'Aseta', color: '#e86a38', totals: [131, 164, 248, 215] });
+    renderPipelineSummary(document.querySelector('#pipeline-rfid-chart'), { label: 'RFID WMS', color: '#2a78d6', totals: [144, 158, 145, 163] });
   </script>
 </body>
 </html>
