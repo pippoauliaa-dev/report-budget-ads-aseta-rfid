@@ -180,6 +180,24 @@
     .webinar-route li { margin: 6px 0; }
     .activation-panel { margin-top: 16px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
     .activation-panel h3 { margin-bottom: 10px; font-size: 17px; }
+    .speaker-profiles { margin-top: 16px; }
+    .speaker-profiles h3 { margin-bottom: 10px; font-size: 17px; }
+    .speaker-profile-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .speaker-profile { min-width: 0; padding: 14px 15px; border: 1px solid var(--line); border-top: 3px solid var(--rfid); border-radius: 11px; background: #fbfdff; }
+    .speaker-profile.asset { border-top-color: var(--aseta); }
+    .speaker-profile.institution { border-top-color: var(--warm); }
+    .speaker-profile h4 { margin: 0 0 5px; color: var(--ink); font-size: 12px; line-height: 1.35; }
+    .speaker-profile .speaker-role { display: block; margin-bottom: 7px; color: var(--muted); font-size: 10px; font-weight: 750; }
+    .speaker-profile p { margin: 0; color: var(--muted); font-size: 10.5px; line-height: 1.5; }
+    .speaker-profile p + p { margin-top: 6px; }
+    .speaker-profile strong { color: var(--ink); }
+    .speaker-disclaimer { margin: 10px 0 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
+    @media (max-width: 800px) {
+      .speaker-profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 480px) {
+      .speaker-profile-grid { grid-template-columns: 1fr; }
+    }
     .activation-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; }
     .activation-card { padding: 12px 13px; border-radius: 10px; background: #f5f8fc; }
     .activation-card strong { display: block; color: var(--ink); font-size: 11px; }
@@ -756,6 +774,18 @@
           <div class="activation-card"><strong>DJKN</strong><span>Jalur rujukan untuk asset governance, lifecycle asset, dan BMN.</span></div>
           <div class="activation-card"><strong>BSN</strong><span>Jalur rujukan ISO 55000/55001 dan standardisasi asset management.</span></div>
         </div>
+      </div>
+
+      <div class="activation-panel speaker-profiles">
+        <h3>Profil kandidat pemateri</h3>
+        <div class="speaker-profile-grid">
+          <article class="speaker-profile"><h4>Mudjiyono Ridjan, S.T., M.M.</h4><span class="speaker-role">Trainer SCI · WMS / logistics</span><p><strong>Profil:</strong> Pengalaman 32 tahun di Nestlé, Matahari Logistics, Panalpina, Nipress, Lautan Djaya Kumala, dan Bina Sinar Amity/Sinar Mas.</p><p><strong>Angle:</strong> warehouse management, logistics operation, 3PL, dan integrasi inventory–transport.</p><p><strong>Outreach:</strong> booking melalui SCI.</p></article>
+          <article class="speaker-profile"><h4>D. Marshall Saluding, CPIM, CSCP, CLTD</h4><span class="speaker-role">Supply Chain Practitioner SCI · WMS strategy</span><p><strong>Profil:</strong> Tercantum sebagai Supply Chain Practitioner SCI pada topik Warehouse as a Service.</p><p><strong>Angle:</strong> warehouse strategy, WaaS, inventory visibility, dan supply chain transformation.</p><p><strong>Outreach:</strong> konfirmasi ketersediaan melalui SCI.</p></article>
+          <article class="speaker-profile"><h4>Artha Nugraha Jonar</h4><span class="speaker-role">Praktisi pengguna · warehouse / retail</span><p><strong>Profil:</strong> Tercantum sebagai CFU East Operation Manager IKEA pada materi SCI tentang era baru Warehouse Management.</p><p><strong>Angle:</strong> digitalisasi gudang, WMS, retail, dan omnichannel warehouse.</p><p><strong>Outreach:</strong> melalui SCI atau jaringan profesional.</p></article>
+          <article class="speaker-profile asset"><h4>DJKN</h4><span class="speaker-role">Jalur rujukan institusional · asset governance</span><p><strong>Profil:</strong> Bukan kandidat individu yang sudah confirmed; relevan sebagai jalur meminta rujukan narasumber.</p><p><strong>Angle:</strong> asset governance, lifecycle asset, inventarisasi, utilisasi, optimalisasi aset, dan BMN.</p><p><strong>Outreach:</strong> permintaan rujukan melalui kanal resmi DJKN.</p></article>
+          <article class="speaker-profile asset"><h4>BSN</h4><span class="speaker-role">Jalur rujukan institusional · ISO 55000</span><p><strong>Profil:</strong> Jalur rujukan untuk trainer, auditor, atau lembaga sertifikasi yang kompeten.</p><p><strong>Angle:</strong> ISO 55000/55001, standardisasi, dan sistem manajemen asset management.</p><p><strong>Outreach:</strong> permintaan rujukan melalui kanal resmi BSN.</p></article>
+        </div>
+        <p class="speaker-disclaimer"><strong>Status:</strong> seluruh kandidat/jalur di atas belum confirmed. Ketersediaan, booking, dan kesediaan membawakan topik perlu dikonfirmasi melalui jalur resmi; jangan diposisikan sebagai pemateri final sebelum ada persetujuan.</p>
       </div>
 
       <div class="webinar-kpi"><strong>KPI webinar dipisahkan dari KPI ads:</strong><div class="webinar-kpi-grid"><p><strong>Shared:</strong> registrasi, attendance rate, peserta target industri, qualified conversation, dan permintaan demo.</p><p><strong>Aseta:</strong> simulator starts, simulator completion, self-assessment, meeting, dan quotation dari webinar.</p><p><strong>RFID WMS:</strong> use case warehouse, konsultasi, demo, qualified meeting, dan quotation-to-next-step.</p></div></div>
