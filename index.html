@@ -159,8 +159,36 @@
     .rfid .period-key.after { background: var(--rfid-soft); }
     .period-key.after strong { color: var(--aseta-dark); }
     .rfid .period-key.after strong { color: var(--rfid-dark); }
-    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 18px 24px 24px; }
+    .chart-grid { display: none; }
     .metric-chart { min-width: 0; padding: 14px 13px 11px; border: 1px solid var(--line); border-radius: 12px; background: #fcfdff; }
+    .pipeline-summary { margin: 18px 0 0; padding: 21px 24px 24px; border: 1px solid var(--line); border-top: 5px solid var(--ink); border-radius: 18px; background: var(--surface); box-shadow: 0 8px 25px rgba(16, 33, 63, .05); }
+    .pipeline-summary-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+    .pipeline-summary-header h3 { margin-bottom: 4px; font-size: clamp(20px, 2vw, 27px); }
+    .pipeline-summary-header p { margin-bottom: 0; color: var(--muted); font-size: 12px; }
+    .pipeline-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; color: var(--muted); font-size: 11px; }
+    .pipeline-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .pipeline-legend i { display: inline-block; width: 18px; height: 3px; border-radius: 99px; }
+    .pipeline-legend .aseta-key i { background: var(--aseta); }
+    .pipeline-legend .rfid-key i { background: var(--rfid); }
+    .pipeline-chart-wrap { position: relative; height: 290px; margin-top: 7px; }
+    .pipeline-chart-wrap svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .pipeline-chart-wrap svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .pipeline-chart-wrap .pipeline-grid-line { stroke: var(--line); stroke-width: 1; }
+    .pipeline-chart-wrap .pipeline-axis-label { fill: var(--muted); font-size: 10px; }
+    .pipeline-chart-wrap .pipeline-value-label { fill: var(--ink); font-size: 10px; font-weight: 800; }
+    .pipeline-chart-wrap .pipeline-line { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .pipeline-chart-wrap .pipeline-point { stroke: var(--surface); stroke-width: 2; }
+    .pipeline-chart-wrap .pipeline-hit { cursor: crosshair; fill: transparent; }
+    .pipeline-chart-wrap .pipeline-crosshair { stroke: var(--muted); stroke-dasharray: 4 4; stroke-width: 1; opacity: 0; }
+    .pipeline-chart-wrap .pipeline-hit:hover + .pipeline-crosshair,
+    .pipeline-chart-wrap .pipeline-hit:focus + .pipeline-crosshair { opacity: .7; }
+    .pipeline-tooltip { position: absolute; z-index: 2; pointer-events: none; min-width: 166px; padding: 9px 10px; border-radius: 8px; background: var(--ink); color: #fff; box-shadow: var(--shadow); font-size: 10px; opacity: 0; transform: translate(-50%, -112%); transition: opacity .12s ease; }
+    .pipeline-tooltip.visible { opacity: 1; }
+    .pipeline-tooltip strong { display: block; margin-bottom: 4px; color: #f5c05f; font-size: 11px; }
+    .pipeline-tooltip div + div { margin-top: 3px; }
+    .pipeline-tooltip .tooltip-aseta::before, .pipeline-tooltip .tooltip-rfid::before { content: ""; display: inline-block; width: 12px; height: 3px; margin: 0 5px 2px 0; border-radius: 99px; }
+    .pipeline-tooltip .tooltip-aseta::before { background: var(--aseta); }
+    .pipeline-tooltip .tooltip-rfid::before { background: var(--rfid); }
     .metric-chart:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .metric-title { margin-bottom: 2px; color: var(--ink); font-size: 13px; font-weight: 850; }
     .metric-subtitle { margin-bottom: 5px; color: var(--muted); font-size: 10px; }
@@ -234,6 +262,8 @@
 
     @media (max-width: 800px) {
       .wrap { padding: 16px 12px 45px; }
+      .pipeline-summary-header { display: block; }
+      .pipeline-chart-wrap { height: 250px; }
       .hero { padding: 31px 25px; border-radius: 17px; }
       .funnel-grid { grid-template-columns: 1fr; }
       .summary-grid { grid-template-columns: 1fr; }
@@ -394,7 +424,7 @@
             <article class="metric-chart"><div class="metric-title">Quotation</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-quotation"></div></article>
             <article class="metric-chart"><div class="metric-title">Deal Contract</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-deal"></div></article>
           </div>
-          <details class="data-table">
+          <details class="data-table" open>
             <summary>Lihat total per periode Aseta</summary>
             <div class="table-wrap"><table><thead><tr><th>Metrik</th><th>P1</th><th>P2</th><th>P3</th><th class="after-col">P4</th></tr></thead><tbody>
               <tr><td>Leads</td><td>120</td><td>154</td><td>232</td><td class="after-col">193</td></tr>
@@ -423,7 +453,7 @@
             <article class="metric-chart"><div class="metric-title">Quotation</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-quotation"></div></article>
             <article class="metric-chart"><div class="metric-title">Deal Contract</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-deal"></div></article>
           </div>
-          <details class="data-table">
+          <details class="data-table" open>
             <summary>Lihat total per periode RFID</summary>
             <div class="table-wrap"><table><thead><tr><th>Metrik</th><th>P1</th><th>P2</th><th>P3</th><th class="after-col">P4</th></tr></thead><tbody>
               <tr><td>Leads</td><td>137</td><td>153</td><td>137</td><td class="after-col">151</td></tr>
@@ -434,6 +464,20 @@
           </details>
         </article>
       </div>
+
+      <article class="pipeline-summary" aria-labelledby="pipeline-summary-title">
+        <div class="pipeline-summary-header">
+          <div>
+            <h3 id="pipeline-summary-title">Summary total pipeline per periode</h3>
+            <p>Akumulasi seluruh tahapan pipeline yang tercatat pada tiap periode.</p>
+          </div>
+          <div class="pipeline-legend" aria-label="Legenda line chart">
+            <span class="aseta-key"><i aria-hidden="true"></i>Aseta</span>
+            <span class="rfid-key"><i aria-hidden="true"></i>RFID WMS</span>
+          </div>
+        </div>
+        <div class="pipeline-chart-wrap" id="pipeline-summary-chart"></div>
+      </article>
 
       <div class="comparison-summary">
         <div class="summary-grid">
@@ -539,7 +583,7 @@
       'aseta-quotation': { label: 'Quotation', color: '#e86a38', totals: [3, 2, 2, 8] },
       'aseta-deal': { label: 'Deal Contract', color: '#e86a38', totals: [0, 0, 1, 3] },
       'rfid-leads': { label: 'Leads', color: '#2a78d6', totals: [137, 153, 137, 151] },
-      'rfid-meeting': { label: 'Meeting', color: '#2a78d6', totals: [5, 5, 10, 5] },
+      'rfid-meeting': { label: 'Meeting', color: '#2a78d6', totals: [5, 5, 3, 5] },
       'rfid-quotation': { label: 'Quotation', color: '#2a78d6', totals: [1, 0, 3, 6] },
       'rfid-deal': { label: 'Deal Contract', color: '#2a78d6', totals: [1, 0, 2, 1] }
     };
@@ -621,6 +665,77 @@
       const chart = comparisonData[container.dataset.chart];
       if (chart) renderComparisonChart(container, chart);
     });
+
+    function renderPipelineSummary(container) {
+      const width = 900, height = 260, left = 54, right = 22, top = 24, bottom = 46;
+      const plotWidth = width - left - right, plotHeight = height - top - bottom;
+      const series = [
+        { label: 'Aseta', color: '#e86a38', totals: [130, 164, 248, 215] },
+        { label: 'RFID WMS', color: '#2a78d6', totals: [144, 158, 145, 163] }
+      ];
+      const max = niceMax(Math.max(...series.flatMap(item => item.totals)));
+      const svg = svgNode('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': 'Line chart total pipeline Aseta dan RFID WMS per periode' });
+      const tooltip = document.createElement('div');
+      tooltip.className = 'pipeline-tooltip';
+      container.replaceChildren(svg, tooltip);
+      const layer = svgNode('g');
+      svg.appendChild(layer);
+      const y = value => top + plotHeight - (value / max * plotHeight);
+      const x = index => left + (plotWidth / (comparisonPeriods.length - 1)) * index;
+
+      for (let tick = 0; tick <= 4; tick += 1) {
+        const value = max * tick / 4;
+        const yy = y(value);
+        layer.appendChild(svgNode('line', { x1: left, y1: yy, x2: width - right, y2: yy, class: 'pipeline-grid-line' }));
+        chartText(layer, left - 10, yy + 4, numberFormat(value), 'pipeline-axis-label', 'end');
+      }
+
+      const pointsByPeriod = comparisonPeriods.map((period, index) => ({
+        period,
+        index,
+        x: x(index),
+        values: series.map(item => item.totals[index])
+      }));
+      const showTooltip = point => {
+        tooltip.replaceChildren();
+        const title = document.createElement('strong');
+        title.textContent = point.period.label;
+        tooltip.appendChild(title);
+        series.forEach((item, index) => {
+          const line = document.createElement('div');
+          line.className = index === 0 ? 'tooltip-aseta' : 'tooltip-rfid';
+          line.textContent = `${item.label}: ${numberFormat(point.values[index])}`;
+          tooltip.appendChild(line);
+        });
+        tooltip.style.left = `${(point.x / width) * 100}%`;
+        tooltip.style.top = `${(Math.min(...point.values.map(value => y(value))) / height) * 100}%`;
+        tooltip.classList.add('visible');
+      };
+
+      series.forEach(item => {
+        const points = item.totals.map((value, index) => `${x(index)},${y(value)}`).join(' ');
+        layer.appendChild(svgNode('polyline', { points, stroke: item.color, class: 'pipeline-line' }));
+        item.totals.forEach((value, index) => {
+          layer.appendChild(svgNode('circle', { cx: x(index), cy: y(value), r: 5, fill: item.color, class: 'pipeline-point' }));
+          if (index === item.totals.length - 1) chartText(layer, x(index) - 7, y(value) - 10, numberFormat(value), 'pipeline-value-label', 'end');
+        });
+      });
+
+      pointsByPeriod.forEach(point => {
+        const hit = svgNode('rect', { x: point.x - 28, y: top, width: 56, height: plotHeight, class: 'pipeline-hit', tabindex: '0', 'aria-label': `${point.period.label}: Aseta ${point.values[0]}, RFID WMS ${point.values[1]}` });
+        const crosshair = svgNode('line', { x1: point.x, y1: top, x2: point.x, y2: top + plotHeight, class: 'pipeline-crosshair' });
+        hit.addEventListener('mouseenter', () => { showTooltip(point); crosshair.style.opacity = '.7'; });
+        hit.addEventListener('focus', () => { showTooltip(point); crosshair.style.opacity = '.7'; });
+        hit.addEventListener('mouseleave', () => { tooltip.classList.remove('visible'); crosshair.style.opacity = '0'; });
+        hit.addEventListener('blur', () => { tooltip.classList.remove('visible'); crosshair.style.opacity = '0'; });
+        layer.appendChild(hit);
+        layer.appendChild(crosshair);
+        chartText(layer, point.x, height - 22, point.period.short, 'pipeline-axis-label');
+      });
+      chartText(layer, width - right, height - 5, 'total pipeline', 'pipeline-axis-label', 'end');
+    }
+
+    renderPipelineSummary(document.querySelector('#pipeline-summary-chart'));
   </script>
 </body>
 </html>
