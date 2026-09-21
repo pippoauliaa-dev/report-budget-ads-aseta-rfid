@@ -189,6 +189,18 @@
     .pipeline-tooltip .tooltip-aseta::before, .pipeline-tooltip .tooltip-rfid::before { content: ""; display: inline-block; width: 12px; height: 3px; margin: 0 5px 2px 0; border-radius: 99px; }
     .pipeline-tooltip .tooltip-aseta::before { background: var(--aseta); }
     .pipeline-tooltip .tooltip-rfid::before { background: var(--rfid); }
+    .pipeline-details { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin-top: 11px; }
+    .pipeline-detail-period { min-width: 0; padding: 10px 11px; border: 1px solid var(--line); border-radius: 10px; background: #fbfdff; }
+    .pipeline-detail-period.after { background: linear-gradient(180deg, var(--warm-soft), #fbfdff); }
+    .pipeline-detail-period h4 { margin: 0 0 8px; color: var(--ink); font-size: 11px; }
+    .pipeline-detail-row { padding-top: 7px; border-top: 1px solid var(--line); font-size: 10px; line-height: 1.45; }
+    .pipeline-detail-row + .pipeline-detail-row { margin-top: 7px; }
+    .pipeline-detail-row strong { display: block; margin-bottom: 2px; font-size: 10px; }
+    .pipeline-detail-row.aseta strong { color: var(--aseta-dark); }
+    .pipeline-detail-row.rfid strong { color: var(--rfid-dark); }
+    .pipeline-detail-row span { color: var(--muted); }
+    .pipeline-details-title { margin: 16px 0 0; color: var(--ink); font-size: 11px; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+    .pipeline-detail-note { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
     .metric-chart:last-child:nth-child(odd) { grid-column: 1 / -1; }
     .metric-title { margin-bottom: 2px; color: var(--ink); font-size: 13px; font-weight: 850; }
     .metric-subtitle { margin-bottom: 5px; color: var(--muted); font-size: 10px; }
@@ -264,6 +276,7 @@
       .wrap { padding: 16px 12px 45px; }
       .pipeline-summary-header { display: block; }
       .pipeline-chart-wrap { height: 250px; }
+      .pipeline-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .hero { padding: 31px 25px; border-radius: 17px; }
       .funnel-grid { grid-template-columns: 1fr; }
       .summary-grid { grid-template-columns: 1fr; }
@@ -289,6 +302,7 @@
       .efficiency-grid { grid-template-columns: 1fr 1fr; }
       .efficiency:last-child { grid-column: 1 / -1; }
       .comparison-periods { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .pipeline-details { grid-template-columns: 1fr; }
       .chart-grid { grid-template-columns: 1fr; }
       .metric-chart:last-child:nth-child(odd) { grid-column: auto; }
     }
@@ -405,6 +419,28 @@
         <div class="source-note">Sumber: tabel funnel mingguan yang diberikan</div>
       </div>
 
+      <article class="pipeline-summary" aria-labelledby="pipeline-summary-title">
+        <div class="pipeline-summary-header">
+          <div>
+            <h3 id="pipeline-summary-title">Summary total pipeline per periode</h3>
+            <p>Akumulasi seluruh tahapan pipeline yang tercatat pada tiap periode.</p>
+          </div>
+          <div class="pipeline-legend" aria-label="Legenda line chart">
+            <span class="aseta-key"><i aria-hidden="true"></i>Aseta</span>
+            <span class="rfid-key"><i aria-hidden="true"></i>RFID WMS</span>
+          </div>
+        </div>
+        <div class="pipeline-chart-wrap" id="pipeline-summary-chart"></div>
+        <div class="pipeline-details-title">Detail pipeline per periode</div>
+        <div class="pipeline-details" aria-label="Detail pipeline per periode">
+          <article class="pipeline-detail-period"><h4>P1 · Mei W3–Jun W3</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 130 total</strong><span>Leads 120 · Meeting 5 · Trial 2 · Quotation 3 · Deal 0</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 144 total</strong><span>Leads 137 · Meeting 5 · Quotation 1 · Deal 1</span></div></article>
+          <article class="pipeline-detail-period"><h4>P2 · Jun W4–Jul W3</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 164 total</strong><span>Leads 154 · Meeting 7 · Trial 1 · Quotation 2 · Deal 0</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 158 total</strong><span>Leads 153 · Meeting 5 · Quotation 0 · Deal 0</span></div></article>
+          <article class="pipeline-detail-period"><h4>P3 · Jul W4–Agt W2</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 248 total</strong><span>Leads 232 · Meeting 11 · Trial 2 · Quotation 2 · Deal 1</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 145 total</strong><span>Leads 137 · Meeting 3 · Quotation 3 · Deal 2</span></div></article>
+          <article class="pipeline-detail-period after"><h4>P4 · Agt W3–Sep W2</h4><div class="pipeline-detail-row aseta"><strong>Aseta · 215 total</strong><span>Leads 193 · Meeting 7 · Trial 4 · Quotation 8 · Deal 3</span></div><div class="pipeline-detail-row rfid"><strong>RFID · 163 total</strong><span>Leads 151 · Meeting 5 · Quotation 6 · Deal 1</span></div></article>
+        </div>
+        <p class="pipeline-detail-note">Total Aseta mencakup Trial dan Quotation sebagai tahap yang tercatat terpisah. Total RFID mencakup Leads, Meeting, Quotation, dan Deal Contract.</p>
+      </article>
+
       <div class="funnel-grid">
         <article class="comparison-panel aseta" aria-labelledby="aseta-comparison-title">
           <div class="comparison-panel-header">
@@ -464,20 +500,6 @@
           </details>
         </article>
       </div>
-
-      <article class="pipeline-summary" aria-labelledby="pipeline-summary-title">
-        <div class="pipeline-summary-header">
-          <div>
-            <h3 id="pipeline-summary-title">Summary total pipeline per periode</h3>
-            <p>Akumulasi seluruh tahapan pipeline yang tercatat pada tiap periode.</p>
-          </div>
-          <div class="pipeline-legend" aria-label="Legenda line chart">
-            <span class="aseta-key"><i aria-hidden="true"></i>Aseta</span>
-            <span class="rfid-key"><i aria-hidden="true"></i>RFID WMS</span>
-          </div>
-        </div>
-        <div class="pipeline-chart-wrap" id="pipeline-summary-chart"></div>
-      </article>
 
       <div class="comparison-summary">
         <div class="summary-grid">
@@ -581,7 +603,7 @@
       'aseta-meeting': { label: 'Meeting', color: '#e86a38', totals: [5, 7, 11, 7] },
       'aseta-trial': { label: 'Trial', color: '#e86a38', totals: [2, 1, 2, 4] },
       'aseta-quotation': { label: 'Quotation', color: '#e86a38', totals: [3, 2, 2, 8] },
-      'aseta-deal': { label: 'Deal Contract', color: '#e86a38', totals: [0, 0, 1, 3] },
+      'aseta-deal': { label: 'Deal Contract', color: '#e86a38', totals: [1, 0, 1, 3] },
       'rfid-leads': { label: 'Leads', color: '#2a78d6', totals: [137, 153, 137, 151] },
       'rfid-meeting': { label: 'Meeting', color: '#2a78d6', totals: [5, 5, 3, 5] },
       'rfid-quotation': { label: 'Quotation', color: '#2a78d6', totals: [1, 0, 3, 6] },
@@ -670,7 +692,7 @@
       const width = 900, height = 260, left = 54, right = 22, top = 24, bottom = 46;
       const plotWidth = width - left - right, plotHeight = height - top - bottom;
       const series = [
-        { label: 'Aseta', color: '#e86a38', totals: [130, 164, 248, 215] },
+        { label: 'Aseta', color: '#e86a38', totals: [131, 164, 248, 215] },
         { label: 'RFID WMS', color: '#2a78d6', totals: [144, 158, 145, 163] }
       ];
       const max = niceMax(Math.max(...series.flatMap(item => item.totals)));
