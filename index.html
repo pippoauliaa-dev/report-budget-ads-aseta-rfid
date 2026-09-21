@@ -159,7 +159,12 @@
     .rfid .period-key.after { background: var(--rfid-soft); }
     .period-key.after strong { color: var(--aseta-dark); }
     .rfid .period-key.after strong { color: var(--rfid-dark); }
-    .chart-grid { display: none; }
+    .chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 18px 24px 24px; }
+    .phase-charts { margin-top: 14px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); }
+    .phase-charts summary { cursor: pointer; padding: 12px 15px; color: var(--aseta-dark); font-size: 11px; font-weight: 850; }
+    .phase-charts summary::marker { color: var(--aseta); }
+    .rfid .phase-charts summary { color: var(--rfid-dark); }
+    .rfid .phase-charts summary::marker { color: var(--rfid); }
     .metric-chart { min-width: 0; padding: 14px 13px 11px; border: 1px solid var(--line); border-radius: 12px; background: #fcfdff; }
     .pipeline-summary { margin: 18px 0 0; padding: 21px 24px 24px; border: 1px solid var(--line); border-top: 5px solid var(--ink); border-radius: 18px; background: var(--surface); box-shadow: 0 8px 25px rgba(16, 33, 63, .05); }
     .pipeline-summary-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
@@ -453,13 +458,16 @@
             <div class="period-key"><strong>P3 · 4 mgg</strong>Jul W4–Agt W2</div>
             <div class="period-key after"><strong>P4 · budget naik</strong>Agt W3–Sep W2</div>
           </div>
-          <div class="chart-grid">
-            <article class="metric-chart"><div class="metric-title">Leads</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-leads"></div></article>
-            <article class="metric-chart"><div class="metric-title">Meeting</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-meeting"></div></article>
-            <article class="metric-chart"><div class="metric-title">Trial</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-trial"></div></article>
-            <article class="metric-chart"><div class="metric-title">Quotation</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-quotation"></div></article>
-            <article class="metric-chart"><div class="metric-title">Deal Contract</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-deal"></div></article>
-          </div>
+          <details class="phase-charts">
+            <summary>Lihat chart per fase Aseta</summary>
+            <div class="chart-grid">
+              <article class="metric-chart"><div class="metric-title">Leads</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-leads"></div></article>
+              <article class="metric-chart"><div class="metric-title">Meeting</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-meeting"></div></article>
+              <article class="metric-chart"><div class="metric-title">Trial</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-trial"></div></article>
+              <article class="metric-chart"><div class="metric-title">Quotation</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-quotation"></div></article>
+              <article class="metric-chart"><div class="metric-title">Deal Contract</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="aseta-deal"></div></article>
+            </div>
+          </details>
           <details class="data-table" open>
             <summary>Lihat total per periode Aseta</summary>
             <div class="table-wrap"><table><thead><tr><th>Metrik</th><th>P1</th><th>P2</th><th>P3</th><th class="after-col">P4</th></tr></thead><tbody>
@@ -483,12 +491,15 @@
             <div class="period-key"><strong>P3 · 4 mgg</strong>Jul W4–Agt W2</div>
             <div class="period-key after"><strong>P4 · budget naik</strong>Agt W3–Sep W2</div>
           </div>
-          <div class="chart-grid">
-            <article class="metric-chart"><div class="metric-title">Leads</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-leads"></div></article>
-            <article class="metric-chart"><div class="metric-title">Meeting</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-meeting"></div></article>
-            <article class="metric-chart"><div class="metric-title">Quotation</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-quotation"></div></article>
-            <article class="metric-chart"><div class="metric-title">Deal Contract</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-deal"></div></article>
-          </div>
+          <details class="phase-charts">
+            <summary>Lihat chart per fase RFID</summary>
+            <div class="chart-grid">
+              <article class="metric-chart"><div class="metric-title">Leads</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-leads"></div></article>
+              <article class="metric-chart"><div class="metric-title">Meeting</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-meeting"></div></article>
+              <article class="metric-chart"><div class="metric-title">Quotation</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-quotation"></div></article>
+              <article class="metric-chart"><div class="metric-title">Deal Contract</div><div class="metric-subtitle">rata-rata per minggu</div><div class="metric-chart-wrap" data-chart="rfid-deal"></div></article>
+            </div>
+          </details>
           <details class="data-table" open>
             <summary>Lihat total per periode RFID</summary>
             <div class="table-wrap"><table><thead><tr><th>Metrik</th><th>P1</th><th>P2</th><th>P3</th><th class="after-col">P4</th></tr></thead><tbody>
